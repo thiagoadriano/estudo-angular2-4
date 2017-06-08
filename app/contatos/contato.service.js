@@ -32,6 +32,10 @@ let ContatoService = class ContatoService {
             return this.getContatos();
         });
     }
+    getContato(id) {
+        return this.getContatos()
+            .then((contatos) => contatos.find((contato) => contato.id === id));
+    }
 };
 ContatoService = __decorate([
     core_1.Injectable()

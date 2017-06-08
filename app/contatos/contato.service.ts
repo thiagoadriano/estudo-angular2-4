@@ -31,4 +31,9 @@ export class ContatoService{
             return this.getContatos();
         })
     }
+
+    getContato(id:number):Promise<Contato>{
+        return this.getContatos()
+                .then((contatos: Contato[]) => contatos.find( (contato:Contato)  => contato.id === id));
+    }
 }
