@@ -11,6 +11,7 @@ import { Contato } from "./contato.model";
 })
 export class ContatoDetalheComponent implements OnInit {
     public contato:Contato;
+    private isNew:boolean = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -23,6 +24,7 @@ export class ContatoDetalheComponent implements OnInit {
         this.route.params.forEach((param: Params) => {
             let id:number = +param['id'];
             if(id){
+                this.isNew = false;
                 this.contatoService.getContato(id)
                     .then((contato: Contato) => {
                         this.contato = contato;
@@ -31,7 +33,7 @@ export class ContatoDetalheComponent implements OnInit {
         });
     }
 
-    getFormGroupClass(isValid: boolean, isPristine:boolean):object{
+    getFormGroupClass(isValid: boolean, isPristine:boolean):{}{
         return {
             'form-group': true,
             'has-danger': !isValid && !isPristine,
@@ -40,7 +42,7 @@ export class ContatoDetalheComponent implements OnInit {
     }
 
 
-    getFormControlClass(isValid: boolean, isPristine:boolean):object{
+    getFormControlClass(isValid: boolean, isPristine:boolean):{}{
         return {
             'form-control': true,
             'form-control-danger': !isValid && !isPristine,
@@ -48,7 +50,13 @@ export class ContatoDetalheComponent implements OnInit {
         }
     }
 
-    log(){
-        console.log(this.contato)
+    onSubmit():void{
+        let promise;
+        if(this.isNew){
+            promise = this.contatoService.create(this.contato);
+        }else{
+            promise = this.contatoService.update(this.contato);
+        }
+        promise.then(contato => this.location.back());
     }
 }
