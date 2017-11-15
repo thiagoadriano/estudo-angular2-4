@@ -2,10 +2,12 @@ import { Injectable } from "@angular/core";
 import { Contato } from "./contato.model";
 import { CONTATOS } from "./contatos-mock";
 import { Http, Headers, Response } from "@angular/http";
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class ContatoService{
+    private contatosUrl: string = 'app/contatos';
     private headers: Headers = new Headers({'Content-Type': 'application/json'});
     constructor(private http:Http){}
 
@@ -68,6 +70,12 @@ export class ContatoService{
             console.log("Acessa o terceiro then");
             return this.getContatos();
         })
+    }
+
+    search(term: string): Observable<Contato[]>  {
+        return this.http
+                    .get(`${this.contatosUrl}/?nome=${term}`)
+                    .map((res: Response) => res.json().data as Contato[]);
     }
 
     private handleError(error: any): Promise<any>{

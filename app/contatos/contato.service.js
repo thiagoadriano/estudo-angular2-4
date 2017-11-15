@@ -14,6 +14,7 @@ require("rxjs/add/operator/toPromise");
 let ContatoService = class ContatoService {
     constructor(http) {
         this.http = http;
+        this.contatosUrl = 'app/contatos';
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
     getContatos() {
@@ -67,6 +68,11 @@ let ContatoService = class ContatoService {
             console.log("Acessa o terceiro then");
             return this.getContatos();
         });
+    }
+    search(term) {
+        return this.http
+            .get(`${this.contatosUrl}/?nome=${term}`)
+            .map((res) => res.json().data);
     }
     handleError(error) {
         return Promise.reject(error.message || error);

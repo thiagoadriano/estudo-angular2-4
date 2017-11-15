@@ -3,20 +3,23 @@
     <form (ngSubmit)="onSubmit()" #contatoForm="ngForm" novalidate>
         <div [ngClass]="getFormGroupClass(nome.valid, nome.pristine)">
             <label for="nome" class="form-control-label">Nome</label>
-            <input type="text" #nome="ngModel" required [ngClass]="getFormControlClass(nome.valid, nome.pristine)" id="nome" name="nome" [(ngModel)] = "contato.nome">
+            <input type="text" #nome="ngModel" required [ngClass]="getFormControlClass(nome.valid, nome.pristine)" id="nome" name="nome"
+                [(ngModel)]="contato.nome">
             <small class="form-control-feedback" [hidden]="nome.valid || nome.pristine">O campo Nome é obrigatório</small>
         </div>
         <div [ngClass]="getFormGroupClass(email.valid, email.pristine)">
             <label for="email" class="form-control-label">E-mail</label>
-            <input type="email" #email="ngModel" required [ngClass]="getFormControlClass(email.valid, email.pristine)" id="email" name="email" [(ngModel)] = "contato.email">
+            <input type="email" #email="ngModel" required [ngClass]="getFormControlClass(email.valid, email.pristine)" id="email" name="email"
+                [(ngModel)]="contato.email">
             <small class="form-control-feedback" [hidden]="email.valid || email.pristine">O campo E-mail é obrigatório</small>
         </div>
         <div [ngClass]="getFormGroupClass(telefone.valid, telefone.pristine)">
             <label for="telefone" class="form-control-label">Telefone</label>
-            <input type="text"  #telefone="ngModel" required [ngClass]="getFormControlClass(telefone.valid, telefone.pristine)" id="telefone" name="telefone" [(ngModel)] = "contato.telefone">
+            <input type="text" #telefone="ngModel" required [ngClass]="getFormControlClass(telefone.valid, telefone.pristine)" id="telefone"
+                name="telefone" [(ngModel)]="contato.telefone">
             <small class="form-control-feedback" [hidden]="telefone.valid || telefone.pristine">O campo Telefone é obrigatório</small>
         </div>
-        <button class="btn btn-success" type="submit" [disabled] = "!contatoForm.form.valid">salvar</button>
-        <a class="btn btn-secondary" routerLink="/">voltar</a>
+        <button class="btn btn-success" type="submit" [disabled]="!contatoForm.form.valid">salvar</button>
+        <a class="btn btn-secondary" (click)="goBack()">voltar</a>
     </form>
 </div>

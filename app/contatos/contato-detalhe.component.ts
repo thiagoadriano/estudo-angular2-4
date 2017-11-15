@@ -10,20 +10,20 @@ import { Contato } from "./contato.model";
     templateUrl: "contato-detalhe.component.html"
 })
 export class ContatoDetalheComponent implements OnInit {
-    public contato:Contato;
-    private isNew:boolean = true;
+    public contato: Contato;
+    private isNew: boolean = true;
 
     constructor(
         private route: ActivatedRoute,
         private location: Location,
         private contatoService: ContatoService
-    ){}
+    ) { }
 
-    ngOnInit():void{
+    ngOnInit(): void {
         this.contato = new Contato(0, '', '', '');
         this.route.params.forEach((param: Params) => {
-            let id:number = +param['id'];
-            if(id){
+            let id: number = +param['id'];
+            if (id) {
                 this.isNew = false;
                 this.contatoService.getContato(id)
                     .then((contato: Contato) => {
@@ -33,7 +33,7 @@ export class ContatoDetalheComponent implements OnInit {
         });
     }
 
-    getFormGroupClass(isValid: boolean, isPristine:boolean):{}{
+    getFormGroupClass(isValid: boolean, isPristine: boolean): {} {
         return {
             'form-group': true,
             'has-danger': !isValid && !isPristine,
@@ -42,7 +42,7 @@ export class ContatoDetalheComponent implements OnInit {
     }
 
 
-    getFormControlClass(isValid: boolean, isPristine:boolean):{}{
+    getFormControlClass(isValid: boolean, isPristine: boolean): {} {
         return {
             'form-control': true,
             'form-control-danger': !isValid && !isPristine,
@@ -50,13 +50,17 @@ export class ContatoDetalheComponent implements OnInit {
         }
     }
 
-    onSubmit():void{
+    onSubmit(): void {
         let promise;
-        if(this.isNew){
+        if (this.isNew) {
             promise = this.contatoService.create(this.contato);
-        }else{
+        } else {
             promise = this.contatoService.update(this.contato);
         }
-        promise.then(contato => this.location.back());
+        promise.then(contato => this.goBack());
+    }
+
+    goBack(): void {
+        this.location.back();
     }
 }
