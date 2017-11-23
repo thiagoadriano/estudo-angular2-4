@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 const core_1 = require("@angular/core");
 const platform_browser_1 = require("@angular/platform-browser");
+const forms_1 = require("@angular/forms");
 const app_component_1 = require("./app.component");
 const app_routing_module_1 = require("./app-routing.module");
 const contatos_module_1 = require("./contatos/contatos.module");
@@ -22,6 +23,7 @@ AppModule = __decorate([
             app_routing_module_1.AppRoutingModule,
             platform_browser_1.BrowserModule,
             contatos_module_1.ContatosModule,
+            forms_1.FormsModule,
             http_1.HttpModule,
             angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService)
         ],

@@ -4,10 +4,10 @@
             <h3>Busca</h3>
             <div class="form-group">
                 <label for=""></label>
-                <input type="search" class="form-control" placeholder="Digite sua busca" #searchBox (keyup)="search(searchBox.value)">
+                <input type="search" class="form-control" placeholder="Digite sua busca" [ngModel]="busca" (ngModelChange)="search($event)">
             </div>
             <ul class="list-group">
-                <li class="list-group-item"></li>
+                <li class="list-group-item cursor-pointer" *ngFor="let c of contatos | async" (click)="verDetalhe(c)">{{ c.nome }}</li>
             </ul>
         </div>
     </div>

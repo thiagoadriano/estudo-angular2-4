@@ -4,28 +4,29 @@ import { CONTATOS } from "./contatos-mock";
 import { Http, Headers, Response } from "@angular/http";
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/toPromise';
+import { ServiceInterface } from "../interfaces/service.interface";
 
 @Injectable()
-export class ContatoService{
+export class ContatoService implements ServiceInterface<Contato>{
     private contatosUrl: string = 'app/contatos';
     private headers: Headers = new Headers({'Content-Type': 'application/json'});
     constructor(private http:Http){}
 
-    getContatos():Promise<Contato[]>{
+    findAll():Promise<Contato[]>{
         return this.http.get("app/contatos")
                         .toPromise()
                         .then(response => response.json().data as Contato[] )
                         .catch(this.handleError);
     }
 
-    getContato(id:number):Promise<Contato>{
-        return this.getContatos()
+    find(id:number):Promise<Contato>{
+        return this.findAll()
                 .then((contatos: Contato[]) => contatos.find( (contato:Contato)  => contato.id === id));
     }
 
     create(contato: Contato):Promise<Contato>{
         let idNovo = null;
-        this.getContatos().then((contatos: Contato[]) => idNovo = contatos.length);
+        this.findAll().then((contatos: Contato[]) => idNovo = contatos.length);
         contato.id = idNovo;
         return this.http.post("app/contatos", JSON.stringify(contato), {headers: this.headers})
                         .toPromise()
@@ -48,7 +49,7 @@ export class ContatoService{
     }
     
 
-    getContatosSlowly(): Promise<Contato[]>{
+    findAllSlowly(): Promise<Contato[]>{
         return new Promise((resolve, reject) => {
             setTimeout(resolve, 2000);
         }).then(() => {
@@ -68,7 +69,7 @@ export class ContatoService{
 
         }).then(() => {
             console.log("Acessa o terceiro then");
-            return this.getContatos();
+            return this.findAll();
         })
     }
 
